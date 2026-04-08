@@ -1,5 +1,4 @@
 from mini_ops_env.models import OpsObservation
-from mini_ops_env.graders import grade_email
 
 class MiniOpsEnv:
 
@@ -10,9 +9,10 @@ class MiniOpsEnv:
     def reset(self):
         self.step_count = 0
 
+        # simple task
         self.current_task = {
             "task_type": "email",
-            "input_data": "Meeting at 5pm"
+            "input_data": "Meeting at 5pm tomorrow"
         }
 
         return OpsObservation(
@@ -24,19 +24,19 @@ class MiniOpsEnv:
     def step(self, action):
         self.step_count += 1
 
+        # safe parsing (VERY IMPORTANT)
         try:
             text = action.payload.get("text", "")
         except:
-            return self._obs(), -0.2, False, {"error": "invalid action"}
+            return self._get_obs(), -0.2, False, {"error": "invalid action"}
 
-        # simple grading
-        expected = "important"
+        # simple logic
         score = 1.0 if "important" in text.lower() else 0.0
 
         reward = score
         done = score == 1.0 or self.step_count >= 3
 
-        return self._obs(), reward, done, {}
+        return self._get_obs(), reward, done, {}
 
     def state(self):
         return {
@@ -44,7 +44,7 @@ class MiniOpsEnv:
             "task": self.current_task
         }
 
-    def _obs(self):
+    def _get_obs(self):
         return OpsObservation(
             task_type="email",
             input_data=self.current_task,

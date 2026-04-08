@@ -1,0 +1,52 @@
+name: MiniOpsEnv
+description: >
+  A real-world assistant task environment with three tasks of increasing difficulty:
+  email classification (easy), task prioritization (medium), and data cleaning (hard).
+  Each episode runs all three tasks sequentially. Rewards are shaped per-step.
+
+version: "1.0.0"
+author: "OpenEnv Hackathon"
+
+entrypoint: mini_ops_env.server.app:app
+
+tags:
+  - openenv
+  - assistant-tasks
+  - email
+  - data-cleaning
+  - prioritization
+
+tasks:
+  - name: email_classification
+    difficulty: easy
+    description: Classify an email as 'important' or 'ignore'.
+
+  - name: task_prioritization
+    difficulty: medium
+    description: Sort a list of tasks by priority score (highest first).
+
+  - name: data_cleaning
+    difficulty: hard
+    description: Sum all valid numeric values from a list of records, ignoring nulls and non-numeric strings.
+
+reward:
+  min: -0.2
+  max: 1.0
+  shaped: true
+  description: >
+    Each task grants 1.0 (correct), 0.5 (partially correct), 0.2 (slightly off),
+    or -0.1 (wrong). Invalid action_type incurs a -0.2 penalty.
+
+observation_space:
+  task_type: string
+  input_data: object
+  step_count: integer
+  task_index: integer
+  done: boolean
+  message: string
+
+action_space:
+  action_type: string   # must be "submit_answer"
+  payload: any          # the agent's answer
+
+max_steps: 3

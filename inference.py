@@ -1,5 +1,5 @@
 """
-inference.py — Official hackathon submission entry point for MiniOpsEnv.
+
 
 Reads environment variables:
     API_BASE_URL  (default: https://api-inference.huggingface.co/v1)

@@ -107,9 +107,7 @@ mini_ops_env/
 ├── env.py
 ├── client.py
 └── server/
-        ├── __init__.py
         ├── app.py     ← FastAPI server via create_app(env)
-        └── client.py  ← EnvClient subclass
 ```
 
 ---

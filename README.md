@@ -100,14 +100,13 @@ mini_ops_env/
 ├── baseline.py
 ├── README.md
 ├── Dockerfile
-│
-└── mini_ops_env/
-    ├── __init__.py
-    ├── models.py      ← Pydantic Observation & Action
-    ├── tasks.py       ← Deterministic task definitions
-    ├── graders.py     ← Per-task scoring functions
-    ├── env.py         ← Core MiniOpsEnv class
-    └── server/
+│── inference.py
+├── models.py
+├── app.py
+├── graders.py
+├── env.py
+├── client.py
+└── server/
         ├── __init__.py
         ├── app.py     ← FastAPI server via create_app(env)
         └── client.py  ← EnvClient subclass
